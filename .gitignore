@@ -1,6 +1,7 @@
 venv
 __pycache__
-.env.dev
+.env
+.env.d
 *.mp3
 .idea
 .vscode
