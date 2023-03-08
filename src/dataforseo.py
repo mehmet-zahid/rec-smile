@@ -82,17 +82,14 @@ class DataForSeo:
     def init_db(self):
         db = mondb.get_database()
         collection_name = "test"
-        try:
-            db.validate_collection(collection_name)  # Try to validate a collection
-        except pymongo.errors.OperationFailure as e:  # If the collection doesn't exist
-            print(f"Collection {collection_name} does not exist. Creating ...")
-            query = {key: {'$exists': True}}
-            collection = db[collection_name]
-            #query = {key: {'$eq': None, '$type': 'null'}}
-            existing_doc = collection.find_one(query)
-            if existing_doc is None:
-                collection.insert_one(self.get_location_info())
-                logger.info("Inserted locations into collection")
+
+        query = {key: {'$exists': True}}
+        collection = db[collection_name]
+        #query = {key: {'$eq': None, '$type': 'null'}}
+        existing_doc = collection.find_one(query)
+        if existing_doc is None:
+            collection.insert_one(self.get_location_info())
+            logger.info("Inserted locations into collection")
 
             
         
@@ -130,7 +127,8 @@ class DataForSeo:
                                 "items": result['items']
                                 }
                          
-                        mondb.add_document(data, "test")
+                        doc = mondb.add_document(data, "test")
+                        logger.info(doc)
                         logger.info("Success DONE .")
                         break
                     time.sleep(5)
@@ -183,13 +181,13 @@ class DataForSeo:
 
     
 
-        for i in response['result']:
-            self.LOCATIONS.append({
-                'location_code': i['location_code'],
-                'location_name': i['location_name'],
-                'country_iso_code': i["country_iso_code"]
-                }
-                )
+        #for i in response['result']:
+        #    self.LOCATIONS.append({
+        #        'location_code': i['location_code'],
+        #        'location_name': i['location_name'],
+        #        'country_iso_code': i["country_iso_code"]
+        #        }
+        #        )
         return self.LOCATIONS
         
 

@@ -17,6 +17,8 @@ def gpt(self, prompt: str):
     answer_length = len(answer)
     print(answer_length)
     print(answer)
+    for i in split_answer(answer):
+            print(len(i))
     #for i in split_answer(answer):
 
 
